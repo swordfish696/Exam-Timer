@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Timer Web App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .timer {
+            font-size: 2em;
+            margin: 20px;
+        }
+        .controls {
+            margin: 20px;
+        }
+        .buttons {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Timer Web App</h1>
+    <div class="controls">
+        <label for="testDuration">Enter Test Duration (minutes): </label>
+        <input type="number" id="testDuration" min="1" required>
+        <button onclick="startTimers()">Start Timers</button>
+    </div>
+    <div class="timer" id="originalTimer">Original Duration: <span id="originalTime"></span></div>
+    <div class="timer" id="extraTimer">Duration with 25% Extra Time: <span id="extraTime"></span></div>
+    <div class="buttons">
+        <button onclick="pauseTimers()">Pause Timers</button>
+        <button onclick="resumeTimers()">Resume Timers</button>
+        <button onclick="stopTimers()">Stop Timers</button>
+    </div>
+
+    <audio id="alarmSound" src="https://www.soundjay.com/button/beep-07.wav" preload="auto"></audio>
+
+    <script>
+        let originalInterval, extraInterval;
+        let originalTimeRemaining, extraTimeRemaining;
+
+        function startTimer(duration, display, sound, intervalVar) {
+            let timer = duration, minutes, seconds;
+            intervalVar = setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    clearInterval(intervalVar);
+                    sound.play();
+                }
+            }, 1000);
+            return intervalVar;
+        }
+
+        function startTimers() {
+            const testDuration = document.getElementById('testDuration').value;
+            if (testDuration && testDuration > 0) {
+                const extraDuration = testDuration * 1.25;
+                const originalDisplay = document.querySelector('#originalTime');
+                const extraDisplay = document.querySelector('#extraTime');
+                const alarmSound = document.getElementById('alarmSound');
+                originalTimeRemaining = testDuration * 60;
+                extraTimeRemaining = extraDuration * 60;
+                originalInterval = startTimer(originalTimeRemaining, originalDisplay, alarmSound, originalInterval);
+                extraInterval = startTimer(extraTimeRemaining, extraDisplay, alarmSound, extraInterval);
+            } else {
+                alert("Please enter a valid test duration.");
+            }
+        }
+
+        function pauseTimers() {
+            clearInterval(originalInterval);
+            clearInterval(extraInterval);
+        }
+
+        function resumeTimers() {
+            const originalDisplay = document.querySelector('#originalTime');
+            const extraDisplay = document.querySelector('#extraTime');
+            const alarmSound = document.getElementById('alarmSound');
+            originalInterval = startTimer(originalTimeRemaining, originalDisplay, alarmSound, originalInterval);
+            extraInterval = startTimer(extraTimeRemaining, extraDisplay, alarmSound, extraInterval);
+        }
+
+        function stopTimers() {
+            clearInterval(originalInterval);
+            clearInterval(extraInterval);
+            document.querySelector('#originalTime').textContent = "00:00";
+            document.querySelector('#extraTime').textContent = "00:00";
+        }
+    </script>
+</body>
+</html>
