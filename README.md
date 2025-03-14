@@ -11,4 +11,6 @@ Sound Alerts: Receive an audible alert when each timer finishes.
 Control Buttons: Pause, resume, and stop the timers as needed for better control.
 This web app is perfect for students, educators, and anyone who needs to keep track of time during tests or exams. Simply enter your test duration, start the timers, and focus on your work without worrying about the time!
 
+UPDTE - updated to include choice of 25% or 50% extra time and larger text 
+
 
