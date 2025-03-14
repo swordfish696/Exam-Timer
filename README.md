@@ -1,7 +1,7 @@
 # Exam-Timer
 A simple exam timer that will also display 25% extra time.
 
-he Test Timer Web App is a simple and user-friendly tool designed to help you manage your test durations effectively. This web app allows you to enter the duration of your test and provides two timers: one for the original test duration and another with an additional 25% extra time.
+The Test Timer Web App is a simple and user-friendly tool designed to help you manage your test durations effectively. This web app allows you to enter the duration of your test and provides two timers: one for the original test duration and another with an additional 25% extra time.
 
 Features:
 
