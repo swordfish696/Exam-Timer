@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +16,7 @@
             background-color: #f0f0f0;
         }
         .timer {
-            font-size: 2em;
+            font-size: 3em;
             margin: 20px;
         }
         .controls {
@@ -33,10 +32,15 @@
     <div class="controls">
         <label for="testDuration">Enter Test Duration (minutes): </label>
         <input type="number" id="testDuration" min="1" required>
+        <label for="extraTime">Select Extra Time: </label>
+        <select id="extraTime">
+            <option value="1.25">25% Extra Time</option>
+            <option value="1.50">50% Extra Time</option>
+        </select>
         <button onclick="startTimers()">Start Timers</button>
     </div>
-    <div class="timer" id="originalTimer">Original Duration: <span id="originalTime"></span></div>
-    <div class="timer" id="extraTimer">Duration with 25% Extra Time: <span id="extraTime"></span></div>
+    <div class="timer" id="originalTimer">Original Duration: <span id="originalTime">00:00</span></div>
+    <div class="timer" id="extraTimer">Duration with Extra Time: <span id="extraTimeDisplay">00:00</span></div>
     <div class="buttons">
         <button onclick="pauseTimers()">Pause Timers</button>
         <button onclick="resumeTimers()">Resume Timers</button>
@@ -70,10 +74,11 @@
 
         function startTimers() {
             const testDuration = document.getElementById('testDuration').value;
+            const extraTimeFactor = document.getElementById('extraTime').value;
             if (testDuration && testDuration > 0) {
-                const extraDuration = testDuration * 1.25;
+                const extraDuration = testDuration * extraTimeFactor;
                 const originalDisplay = document.querySelector('#originalTime');
-                const extraDisplay = document.querySelector('#extraTime');
+                const extraDisplay = document.querySelector('#extraTimeDisplay');
                 const alarmSound = document.getElementById('alarmSound');
                 originalTimeRemaining = testDuration * 60;
                 extraTimeRemaining = extraDuration * 60;
@@ -91,7 +96,7 @@
 
         function resumeTimers() {
             const originalDisplay = document.querySelector('#originalTime');
-            const extraDisplay = document.querySelector('#extraTime');
+            const extraDisplay = document.querySelector('#extraTimeDisplay');
             const alarmSound = document.getElementById('alarmSound');
             originalInterval = startTimer(originalTimeRemaining, originalDisplay, alarmSound, originalInterval);
             extraInterval = startTimer(extraTimeRemaining, extraDisplay, alarmSound, extraInterval);
@@ -101,7 +106,7 @@
             clearInterval(originalInterval);
             clearInterval(extraInterval);
             document.querySelector('#originalTime').textContent = "00:00";
-            document.querySelector('#extraTime').textContent = "00:00";
+            document.querySelector('#extraTimeDisplay').textContent = "00:00";
         }
     </script>
 </body>
